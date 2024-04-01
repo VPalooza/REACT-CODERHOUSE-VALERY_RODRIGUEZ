@@ -1,0 +1,42 @@
+[
+    {
+        "id": 37,
+        "title": "Solarbreeze",
+        "description": "In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.",
+        "pictureURL": "http://dummyimage.com/169x100.png/ff4444/ffffff",
+        "price": "$18025.21",
+        "category": "accesorios"
+    },
+    {
+        "id": 0,
+        "title": "Tin",
+        "description": "Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.",
+        "pictureURL": "http://dummyimage.com/184x100.png/cc0000/ffffff",
+        "price": "$15641.21",
+        "category": "accesorios"
+    },
+    {
+        "id": 575,
+        "title": "Otcom",
+        "description": "Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.",
+        "pictureURL": "http://dummyimage.com/243x100.png/5fa2dd/ffffff",
+        "price": "$18112.58",
+        "category": "alimento"
+    },
+    {
+        "id": 64,
+        "title": "Cardguard",
+        "description": "Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.",
+        "pictureURL": "http://dummyimage.com/111x100.png/dddddd/000000",
+        "price": "$19779.69",
+        "category": "alimento"
+    },
+    {
+        "id": 8,
+        "title": "Tempsoft",
+        "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.",
+        "pictureURL": "http://dummyimage.com/204x100.png/cc0000/ffffff",
+        "price": "$11410.03",
+        "category": "alimento"
+    }
+]
