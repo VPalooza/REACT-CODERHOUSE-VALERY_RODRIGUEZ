@@ -1,7 +1,25 @@
-import cart from '../assets/cart-icon.svg';
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
+import cartImg from "../assets/cart-icon.svg";
+import "../App.css";
 
 export const CartWidget = () => {
-    return <><img src={cart}  alt="tienda de mascotas" height={20}/>
-    <span>7</span>
-    </>
-}
+    const { itemCart } = useContext(CartContext);
+
+    const totalProducts = itemCart.reduce(
+        (total, product) => total + product.quantity,
+        0
+    );
+
+    if (!totalProducts) return null;
+
+    return (
+        <Link to="/checkout">
+            <div className="cart-market">
+                <img src={cartImg} alt="" className="imagen" />
+                <strong className="cartWidget-total">{totalProducts}</strong>
+            </div>
+        </Link>
+    );
+};

@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import "../App.css";
 import { useParams } from "react-router-dom";
-import data from "../data/products.json";
-import Container from "react-bootstrap/Container";
+import { ItemDetail } from "./ItemDetail";
+import { getDoc, doc, query, where } from "firebase/firestore"; 
+import { getFirestore } from "firebase/firestore";
+
 
 export const ItemDetailContainer = () => {
     const [product, setProduct] = useState(null);
@@ -9,28 +12,17 @@ export const ItemDetailContainer = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        const getProducts = () => {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve(data);
-                }, 2000);
-            });
-        };
+        const db = getFirestore();
+        const refDoc = doc(db, "items", id);
 
-        getProducts().then((data) => { 
-                const filteredData = data.find((d) => d.id === Number (id));
-                setProduct(filteredData);      
+        getDoc(refDoc).then((snapshot) => {
+            setProduct({ id: snapshot.id, ...snapshot.data() });
         });
     }, [id]);
 
     if (!product) return null;
 
-    return (
-        <Container className="mt-4">
-            <div>{product.name}</div>
-            <img src={product.img} alt={product.name}/>
-        </Container>
-    );
+    return <ItemDetail product={product} />;
 };
 
 export default ItemDetailContainer;
