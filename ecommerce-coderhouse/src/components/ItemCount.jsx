@@ -1,8 +1,22 @@
-import { useState } from "react";
+import React, { useState, useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus, faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
 import "../App.css";
 
-export const ItemCount = ({ onAdd, stock }) => {
-    const [count, setCount] = useState(1);
+export const ItemCount = ({ onAdd, stock, item }) => {
+    const [count, setCount] = useState(0);
+    const { itemCart } = useContext(CartContext);
+    const [showNoItemsError, setShowNoItemsError] = useState(false);
+
+    const handleCountChange = (event) => {
+        const inputValue = event.target.value;
+        if (!isNaN(inputValue) && parseInt(inputValue) <= stock) {
+            setCount(parseInt(inputValue));
+        }
+    };
 
     const handleUp = () => {
         if (stock > count) {
@@ -11,22 +25,57 @@ export const ItemCount = ({ onAdd, stock }) => {
     };
 
     const handleDown = () => {
-        if (count > 1) {
+        if (count > 0) {
             setCount(count - 1);
         }
     };
 
     const upAdd = () => {
-            setCount(1);
-            onAdd(count);
+        if (count === 0) {
+            setShowNoItemsError(true);
+            return;
+        }
+
+        const existingItem = itemCart.find(
+            (cartItem) => cartItem.id === item.id
+        );
+        const quantityToAdd =
+            count - (existingItem ? existingItem.quantity : 0);
+        onAdd(quantityToAdd); 
+
+        toast.success(`Se agregaron ${quantityToAdd} ${quantityToAdd === 1 ? 'unidad' : 'unidades'} de ${item.titulo} al carrito`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        
     };
+
+    const isItemInCart = itemCart.some((cartItem) => cartItem.id === item.id);
+    const quantityInCart = isItemInCart
+        ? itemCart.find((cartItem) => cartItem.id === item.id).quantity
+        : 0;
 
     return (
         <div>
-            <mark className="down down-index" onClick={handleDown}>-</mark>
-            <input value={count} readOnly />
-            <mark onClick={handleUp}>+</mark>
-            <button onClick={upAdd}>Agregar al carrito</button>
+            <button className="button-count" onClick={handleDown}><FontAwesomeIcon className="count-icon" icon={faMinus} /></button>
+            <input className="input-count"
+                type="number"
+                value={count}
+                onChange={handleCountChange}
+                min="0" 
+                max={stock} 
+            />
+            <button className="button-count" onClick ={handleUp}><FontAwesomeIcon className="count-icon" icon={faPlus} /></button>
+            <button className="button-count button-add-to-cart"onClick={upAdd}>Agregar al carrito <FontAwesomeIcon icon={faCartPlus} /></button>
+            {isItemInCart && (
+                <p className="quantity-in-cart">Ya llevas {quantityInCart} unidad/es de este item</p>
+            )}
+            {showNoItemsError && <p className="no-items-error shake">Debes agregar al menos un producto</p>}
         </div>
     );
 };

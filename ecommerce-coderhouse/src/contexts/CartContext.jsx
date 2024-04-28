@@ -3,35 +3,25 @@ import { createContext, useState } from "react";
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-
     const [itemCart, setCart] = useState([]);
 
     const clearShop = () => setCart([]);
     const addShop = (item, quantity) => {
-        const exist = itemCart.some((i) => i.id === item.id);
-
-        if (exist) {
-            const addItem = itemCart.map((product) => {
-                if (product.id === items.id) {
-                    return {
-                        ...product,
-                        quantity: product.quantity + quantity,
-                    };
-                } else {
-                    return product;
-                }
-            });
-            setCart(addItem);
+        const existingItemIndex = itemCart.findIndex((i) => i.id === item.id);
+    
+        if (existingItemIndex !== -1) {
+            const updatedCart = [...itemCart];
+            updatedCart[existingItemIndex].quantity += quantity;
+            setCart(updatedCart);
         } else {
-            setCart((prev) => {
-                return [...prev, { ...item, quantity }];
-            });
+            setCart((prevCart) => [...prevCart, { ...item, quantity }]);
         }
     };
+    
     const minusShop = (id) => {
         const index = itemCart.findIndex((item) => item.id === id);
         if (index !== -1) {
-            const updatedShop = [...cart];
+            const updatedShop = [...itemCart]; // Corregir aquí, cambiar "cart" a "itemCart"
             updatedShop[index].quantity -= 1;
             if (updatedShop[index].quantity === 0) {
                 updatedShop.splice(index, 1);
@@ -41,7 +31,9 @@ export const CartProvider = ({ children }) => {
     };
 
     return (
-        <CartContext.Provider value={{ itemCart, clearShop, addShop, minusShop }}>
+        <CartContext.Provider
+            value={{ itemCart, clearShop, addShop, minusShop }}
+        >
             {children}
         </CartContext.Provider>
     );

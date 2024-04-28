@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
-import cartImg from "../assets/cart-icon.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import "../App.css";
 
 export const CartWidget = () => {
@@ -17,7 +18,7 @@ export const CartWidget = () => {
     return (
         <Link to="/checkout">
             <div className="cart-market">
-                <img src={cartImg} alt="" className="imagen" />
+                <FontAwesomeIcon icon={faShoppingCart} />
                 <strong className="cartWidget-total">{totalProducts}</strong>
             </div>
         </Link>

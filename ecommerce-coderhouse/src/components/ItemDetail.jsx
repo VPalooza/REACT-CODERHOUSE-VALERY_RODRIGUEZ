@@ -1,24 +1,38 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ItemCount } from "./ItemCount";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
-export const ItemDetail = ({ product }) => {
+const ItemDetail = ({ item }) => {
     const { addShop } = useContext(CartContext);
 
-    const add = (quantity) => addShop(product, quantity);
+    const add = (quantity) => addShop(item, quantity);
 
     return (
         <>
-            <Link to="/">
-                <button className="home-button">Volver</button>
-            </Link>
-            <div>{product.titulo}</div>
-            <img src={product.imagen} alt={product.titulo} />
-            <div>Stock:{product.stock}</div>
-            <ItemCount onAdd={add} stock={product.stock} />
+            <div className="item-detail-wrapper">
+                <div className="item-details-left-wrapper">
+                <Link to="/">
+                    <button className="home-button">
+                        <FontAwesomeIcon icon={faChevronLeft} /> Volver
+                    </button>
+                </Link>
+                <div className="item-detail-title">{item.titulo}</div>
+                <div className="item-detail-stock">Stock: {item.stock}</div>
+                </div>
+                <div className="img-item-detail-wrapper"><img
+                    src={item.imagen}
+                    alt={item.titulo}
+                    className="item-detail-img"
+                />
+                </div>
+                <ItemCount onAdd={add} stock={item.stock} item={item} />
+            </div>
             <footer className="footer-index">hecho con amorcito</footer>
         </>
     );
 };
+
+export default ItemDetail;

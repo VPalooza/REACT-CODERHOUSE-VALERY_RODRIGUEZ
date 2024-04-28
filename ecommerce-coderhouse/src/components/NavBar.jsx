@@ -10,10 +10,10 @@ export const NavBar = () => {
         <>
             <Navbar className="nav-bar" expand="sm" sticky="top">
                 <Container fluid="sm" >
-                    <Navbar.Brand href="/">Tienda aromática</Navbar.Brand>
+                    <NavLink to="/" className="navbar-brand">Tienda aromática</NavLink>
                     <Nav className="me-auto">
-                        <Nav.Link to="/category/vela" as={NavLink}>Velas</Nav.Link>
-                        <Nav.Link to="/category/aceite" as={NavLink}>Aceites esenciales</Nav.Link>
+                        <Nav.Link as={NavLink} to="/category/vela">Velas</Nav.Link>
+                        <Nav.Link as={NavLink} to="/category/aceite">Aceites esenciales</Nav.Link>
                     </Nav>
                     <CartWidget />
                 </Container>

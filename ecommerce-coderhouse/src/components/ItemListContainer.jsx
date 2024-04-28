@@ -29,21 +29,30 @@ export const ItemListContainer = () => {
             );
         }
 
-        getDocs(refCollection).then((snapshot) => {
-            setProducts(
-                snapshot.docs.map((doc) => {
-                    return { id: doc.id, ...doc.data() };
-                })
-            );
-        })
-        .finally(() => setLoading(false));
+        getDocs(refCollection)
+            .then((snapshot) => {
+                setProducts(
+                    snapshot.docs.map((doc) => {
+                        return { id: doc.id, ...doc.data() };
+                    })
+                );
+            })
+            .finally(() => setLoading(false));
     }, [id]);
 
-    if (loading) return <h1>Cargando...</h1>;
+    if (loading) {
+        return (
+            <div className="loader-wrapper">
+                <div className="loader"></div>
+            </div>
+        );
+    }
 
     return (
-        <Container fluid ="sm" className="item-list-container" >
-            <ItemList products={products} />
+        <Container className="container-item-list" fluid="sm">
+            <div className="item-list-container">
+                <ItemList products={products} />
+            </div>
             <footer className="footer-index">hecho con amorcito</footer>
         </Container>
     );
