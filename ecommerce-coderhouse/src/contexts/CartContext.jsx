@@ -8,7 +8,7 @@ export const CartProvider = ({ children }) => {
     const clearShop = () => setCart([]);
     const addShop = (item, quantity) => {
         const existingItemIndex = itemCart.findIndex((i) => i.id === item.id);
-    
+
         if (existingItemIndex !== -1) {
             const updatedCart = [...itemCart];
             updatedCart[existingItemIndex].quantity += quantity;
@@ -17,11 +17,11 @@ export const CartProvider = ({ children }) => {
             setCart((prevCart) => [...prevCart, { ...item, quantity }]);
         }
     };
-    
+
     const minusShop = (id) => {
         const index = itemCart.findIndex((item) => item.id === id);
         if (index !== -1) {
-            const updatedShop = [...itemCart]; // Corregir aquí, cambiar "cart" a "itemCart"
+            const updatedShop = [...itemCart];
             updatedShop[index].quantity -= 1;
             if (updatedShop[index].quantity === 0) {
                 updatedShop.splice(index, 1);
@@ -30,9 +30,13 @@ export const CartProvider = ({ children }) => {
         }
     };
 
+    const removeItem = (id) => {
+        setCart(itemCart.filter((item) => item.id !== id));
+    };
+
     return (
         <CartContext.Provider
-            value={{ itemCart, clearShop, addShop, minusShop }}
+            value={{ itemCart, clearShop, addShop, minusShop, removeItem }}
         >
             {children}
         </CartContext.Provider>

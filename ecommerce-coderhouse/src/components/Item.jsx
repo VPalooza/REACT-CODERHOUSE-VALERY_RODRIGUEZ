@@ -15,24 +15,30 @@ export const Item = ({ product }) => {
 
     return (
         <div className="item-wrapper">
-            <Card className="card-item">
-                <div className="img-wrapper">
-                    <Card.Img className="card-img" src={product.imagen} />
+            <div className="info-wrapper">
+                <div className="item-title-text">{product.titulo}</div>
+                <div className="item-description-text">
+                    {product.descripcion}
                 </div>
-                <Card.Body className="card-body">
-                    <Card.Title className="item-title-text">{product.titulo}</Card.Title>
-                    <Card.Text className="item-description-text">{product.descripcion}</Card.Text>
-                    <Card.Text className="item-category-text">{product.categoria}</Card.Text>
-                    <ItemCount
-                        onAdd={addToCart}
-                        stock={product.stock}
-                        item={product}
+                <div className="item-category-text">{product.categoria}</div>
+                <ItemCount
+                    onAdd={addToCart}
+                    stock={product.stock}
+                    item={product}
+                />
+                <Link to={`/item/${product.id}`}>
+                    <button className="details-button">Ver detalles</button>
+                </Link>
+            </div>
+            <div className="img-wrapper">
+                <div className="card-body">
+                    <img
+                        src={product.imagen}
+                        alt={product.titulo}
+                        className="card-img"
                     />
-                    <Link to={`/item/${product.id}`}>
-                        <Button className="details-button">Ver detalles</Button>
-                    </Link>
-                </Card.Body>
-            </Card>
+                </div>
+            </div>
         </div>
     );
 };

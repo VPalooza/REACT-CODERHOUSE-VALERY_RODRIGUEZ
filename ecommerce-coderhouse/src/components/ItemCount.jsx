@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus, faCartPlus } from '@fortawesome/free-solid-svg-icons';
-import { toast } from 'react-toastify'; 
-import 'react-toastify/dist/ReactToastify.css'; 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faMinus, faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../App.css";
 
 export const ItemCount = ({ onAdd, stock, item }) => {
@@ -41,18 +41,22 @@ export const ItemCount = ({ onAdd, stock, item }) => {
         );
         const quantityToAdd =
             count - (existingItem ? existingItem.quantity : 0);
-        onAdd(quantityToAdd); 
+        onAdd(quantityToAdd);
 
-        toast.success(`Se agregaron ${quantityToAdd} ${quantityToAdd === 1 ? 'unidad' : 'unidades'} de ${item.titulo} al carrito`, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-        
+        toast.success(
+            `Se agregaron ${quantityToAdd} ${
+                quantityToAdd === 1 ? "unidad" : "unidades"
+            } de ${item.titulo} al carrito`,
+            {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            }
+        );
     };
 
     const isItemInCart = itemCart.some((cartItem) => cartItem.id === item.id);
@@ -61,21 +65,38 @@ export const ItemCount = ({ onAdd, stock, item }) => {
         : 0;
 
     return (
-        <div>
-            <button className="button-count" onClick={handleDown}><FontAwesomeIcon className="count-icon" icon={faMinus} /></button>
-            <input className="input-count"
-                type="number"
-                value={count}
-                onChange={handleCountChange}
-                min="0" 
-                max={stock} 
-            />
-            <button className="button-count" onClick ={handleUp}><FontAwesomeIcon className="count-icon" icon={faPlus} /></button>
-            <button className="button-count button-add-to-cart"onClick={upAdd}>Agregar al carrito <FontAwesomeIcon icon={faCartPlus} /></button>
+        <div className="count-wrapper">
+            <div className="button-count-wrapper">
+                <button onClick={handleDown}>
+                    <FontAwesomeIcon className="count-icon" icon={faMinus} style={{ backgroundColor: 'transparent' }}/>
+                </button>
+                <input
+                    className="input-count"
+                    type="number"
+                    value={count}
+                    onChange={handleCountChange}
+                    min="0"
+                    max={stock}
+                />
+                <button onClick={handleUp}>
+                    <FontAwesomeIcon className="count-icon" icon={faPlus} style={{ backgroundColor: 'transparent' }} />
+                </button>
+                <button
+                    onClick={upAdd}
+                >
+                    Agregar al carrito <FontAwesomeIcon className="add-cart-icon" icon={faCartPlus} style={{ backgroundColor: 'transparent' }}/>
+                </button>
+            </div>
             {isItemInCart && (
-                <p className="quantity-in-cart">Ya llevas {quantityInCart} unidad/es de este item</p>
+                <p className="quantity-in-cart">
+                    Ya llevas {quantityInCart} unidad/es de este item
+                </p>
             )}
-            {showNoItemsError && <p className="no-items-error shake">Debes agregar al menos un producto</p>}
+            {showNoItemsError && (
+                <p className="no-items-error shake">
+                    Debes agregar al menos un producto
+                </p>
+            )}
         </div>
     );
 };

@@ -9,6 +9,7 @@ import {
     where,
     collection,
 } from "firebase/firestore";
+import Header from "./Header"; // Importa el componente Header
 import Container from "react-bootstrap/Container";
 
 export const ItemListContainer = () => {
@@ -49,11 +50,13 @@ export const ItemListContainer = () => {
     }
 
     return (
-        <Container className="container-item-list" fluid="sm">
-            <div className="item-list-container">
-                <ItemList products={products} />
-            </div>
-            <footer className="footer-index">hecho con amorcito</footer>
-        </Container>
+        <>
+            <Header /> {/* Utiliza el componente Header */}
+            <Container className="container-item-list" fluid="sm">
+                <div className="item-list-container">
+                    <ItemList products={products} />
+                </div>
+            </Container>
+        </>
     );
 };

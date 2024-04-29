@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
+import "../App.css";
 import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
-import Swal from "sweetalert2"; // Importa SweetAlert2
+import Swal from "sweetalert2";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
     name: "",
@@ -17,8 +18,16 @@ export const Checkout = () => {
     const [errors, setErrors] = useState({});
     const [cartEmpty, setCartEmpty] = useState(false);
     const [processingOrder, setProcessingOrder] = useState(false);
-    const { clearShop, itemCart } = useContext(CartContext);
+    const { clearShop, itemCart, removeItem } = useContext(CartContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (itemCart.length === 0) {
+            setCartEmpty(true);
+        } else {
+            setCartEmpty(false);
+        }
+    }, [itemCart]);
 
     const handleChange = (ev) => {
         const { value, name } = ev.target;
@@ -31,25 +40,6 @@ export const Checkout = () => {
     const validate = () => {
         let isValid = true;
         const errors = {};
-
-        if (buyer.name.replace(/\s/g, "").length < 15) {
-            errors.name =
-                " ¡Un momento! ✋ Por favor, ingrese los datos requeridos";
-            isValid = false;
-        }
-
-        if (!/^\d{5,}$/.test(buyer.phone)) {
-            errors.phone =
-                " ¡Un momento! ✋ Por favor, ingrese los datos requeridos";
-            isValid = false;
-        }
-
-        if (!/^\S+@\S+\.\S+$/.test(buyer.email)) {
-            errors.email =
-                " ¡Un momento! ✋ Por favor, ingrese una dirección de correo electrónico válida";
-            isValid = false;
-        }
-
         setErrors(errors);
         return isValid;
     };
@@ -61,12 +51,6 @@ export const Checkout = () => {
 
     const handleOrder = async () => {
         if (!validate()) {
-            document.querySelector(".checkout-form").classList.add("shake");
-            setTimeout(() => {
-                document
-                    .querySelector(".checkout-form")
-                    .classList.remove("shake");
-            }, 500);
             return;
         }
 
@@ -103,7 +87,6 @@ export const Checkout = () => {
 
     const handleClearShop = () => {
         clearShop();
-        setCartEmpty(true);
     };
 
     return (
@@ -122,41 +105,41 @@ export const Checkout = () => {
                     {itemCart.length > 0 && (
                         <div>
                             <div className="table-container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Producto</th>
-                                        <th>Imagen</th>
-                                        <th>Cantidad</th>
-                                        <th>Precio</th>
-                                        <th>Eliminar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {itemCart.map((item) => (
-                                        <tr key={item.id}>
-                                            <td>{item.titulo}</td>
-                                            <td>
-                                                <img
-                                                    src={item.imagen}
-                                                    alt={item.titulo}
-                                                />
-                                            </td>
-                                            <td>{item.quantity}</td>
-                                            <td>{item.precio}</td>
-                                            <td>
-                                                <button
-                                                    onClick={() =>
-                                                        clearShop(item.id)
-                                                    }
-                                                >
-                                                    eliminar
-                                                </button>
-                                            </td>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th>Imagen</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Eliminar</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {itemCart.map((item) => (
+                                            <tr key={item.id}>
+                                                <td>{item.titulo}</td>
+                                                <td>
+                                                    <img
+                                                        src={item.imagen}
+                                                        alt={item.titulo}
+                                                    />
+                                                </td>
+                                                <td>{item.quantity}</td>
+                                                <td>{item.precio}</td>
+                                                <td>
+                                                    <button
+                                                        onClick={() =>
+                                                            removeItem(item.id)
+                                                        }
+                                                    >
+                                                        eliminar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
                             <Link to="/">
                                 <button>Seguir comprando</button>
@@ -228,7 +211,6 @@ export const Checkout = () => {
                     <div className="loader-checkout">Procesando...</div>
                 )}
             </div>
-            <footer className="footer-index">hecho con amorcito</footer>
         </Container>
     );
 };

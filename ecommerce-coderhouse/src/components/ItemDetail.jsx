@@ -30,7 +30,6 @@ const ItemDetail = ({ item }) => {
                 </div>
                 <ItemCount onAdd={add} stock={item.stock} item={item} />
             </div>
-            <footer className="footer-index">hecho con amorcito</footer>
         </>
     );
 };
