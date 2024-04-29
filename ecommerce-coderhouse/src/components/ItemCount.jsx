@@ -97,6 +97,7 @@ export const ItemCount = ({ onAdd, stock, item }) => {
                     Debes agregar al menos un producto
                 </p>
             )}
+            
         </div>
     );
 };

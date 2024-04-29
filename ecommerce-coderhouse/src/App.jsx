@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
 
 function App() {
+    document.body.classList.add("custom-body-class");
     return (
         <BrowserRouter>
             <NavBar />

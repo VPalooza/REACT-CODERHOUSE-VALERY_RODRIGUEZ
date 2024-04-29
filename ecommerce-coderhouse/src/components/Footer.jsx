@@ -4,8 +4,9 @@ import "../App.css";
 
 const Footer = () => {
     return (
-        <footer>
-            <p>Derechos de autor © 2024 Mi Empresa</p>
+        <footer className='footer'>
+            <p>Hecho con amorcito por Val, para el curso de React JS de Coderhouse ❤</p>
+                <p>Profe: Julio Avantt</p>            
         </footer>
     );
 }

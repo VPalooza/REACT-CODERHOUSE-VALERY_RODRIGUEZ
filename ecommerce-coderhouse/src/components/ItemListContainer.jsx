@@ -9,7 +9,7 @@ import {
     where,
     collection,
 } from "firebase/firestore";
-import Header from "./Header"; // Importa el componente Header
+import Header from "./Header"; 
 import Container from "react-bootstrap/Container";
 
 export const ItemListContainer = () => {
@@ -51,7 +51,7 @@ export const ItemListContainer = () => {
 
     return (
         <>
-            <Header /> {/* Utiliza el componente Header */}
+            <Header />
             <Container className="container-item-list" fluid="sm">
                 <div className="item-list-container">
                     <ItemList products={products} />
