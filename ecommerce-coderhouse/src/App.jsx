@@ -7,6 +7,7 @@ import { NavBar } from "./components/NavBar";
 import { Checkout } from "./components/Checkout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ButtonUp from "./components/ButtonUp";
 import Footer from "./components/Footer";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
                     <Route path="/item/:id" element={<ItemDetailContainer />} />
                 </Routes>
             </div>
+            <ButtonUp/>
             <Footer />
             <ToastContainer />
         </BrowserRouter>

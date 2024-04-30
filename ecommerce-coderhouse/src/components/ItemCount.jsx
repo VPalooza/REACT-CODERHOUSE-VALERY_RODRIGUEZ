@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus, faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faMinus, faCartPlus, faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../App.css";
@@ -31,7 +31,7 @@ export const ItemCount = ({ onAdd, stock, item }) => {
     };
 
     const upAdd = () => {
-        if (count === 0) {
+        if (count === 0 && !isItemInCart) {
             setShowNoItemsError(true);
             return;
         }
@@ -88,13 +88,13 @@ export const ItemCount = ({ onAdd, stock, item }) => {
                 </button>
             </div>
             {isItemInCart && (
-                <p className="quantity-in-cart">
-                    Ya llevas {quantityInCart} unidad/es de este item
+                <p className="notification-popup">
+                    <FontAwesomeIcon icon={faCircleExclamation} />  Ya llevas {quantityInCart} unidad/es de este item
                 </p>
             )}
-            {showNoItemsError && (
-                <p className="no-items-error shake">
-                    Debes agregar al menos un producto
+            {showNoItemsError && count === 0 && !isItemInCart && (
+                <p className="notification-popup shake">
+                    <FontAwesomeIcon icon={faCircleExclamation} />  Debes agregar al menos un producto
                 </p>
             )}
             

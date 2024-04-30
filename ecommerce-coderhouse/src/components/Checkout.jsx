@@ -6,6 +6,8 @@ import { CartContext } from "../contexts/CartContext";
 import Swal from "sweetalert2";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const initialValues = {
     name: "",
@@ -35,12 +37,29 @@ export const Checkout = () => {
             ...prev,
             [name]: value,
         }));
+        setErrors({ ...errors, [name]: "" });
     };
 
     const validate = () => {
         let isValid = true;
-        const errors = {};
-        setErrors(errors);
+        const newErrors = {};
+
+        if (buyer.name.replace(/\s/g, "").length < 15) {
+            newErrors.name = " ¡Un momento! ✋ Por favor, ingrese los datos requeridos";
+            isValid = false;
+        }
+
+        if (!/^\d{5,}$/.test(buyer.phone)) {
+            newErrors.phone = " ¡Un momento! ✋ Por favor, ingrese los datos requeridos";
+            isValid = false;
+        }
+
+        if (!/^\S+@\S+\.\S+$/.test(buyer.email)) {
+            newErrors.email = " ¡Un momento! ✋ Por favor, ingrese una dirección de correo electrónico válida";
+            isValid = false;
+        }
+
+        setErrors(newErrors);
         return isValid;
     };
 
@@ -133,7 +152,9 @@ export const Checkout = () => {
                                                             removeItem(item.id)
                                                         }
                                                     >
-                                                        eliminar
+                                                        <FontAwesomeIcon
+                                                            icon={faTrash}
+                                                        />
                                                     </button>
                                                 </td>
                                             </tr>
@@ -165,9 +186,10 @@ export const Checkout = () => {
                                     value={buyer.name}
                                     name="name"
                                     onChange={handleChange}
+                                    className={errors.name ? "error-input" : ""}
                                 />
                                 {errors.name && (
-                                    <div className="error-form-text">
+                                    <div className="shake notification-popup">
                                         {errors.name}
                                     </div>
                                 )}
@@ -180,9 +202,10 @@ export const Checkout = () => {
                                     name="phone"
                                     onChange={handleChange}
                                     pattern="[0-9]*"
+                                    className={errors.phone ? "error-input" : ""}
                                 />
                                 {errors.phone && (
-                                    <div className="error-form-text">
+                                    <div className="shake notification-popup">
                                         {errors.phone}
                                     </div>
                                 )}
@@ -194,9 +217,10 @@ export const Checkout = () => {
                                     value={buyer.email}
                                     name="email"
                                     onChange={handleChange}
+                                    className={errors.email ? "error-input" : ""}
                                 />
                                 {errors.email && (
-                                    <div className="error-form-text">
+                                    <div className="shake notification-popup">
                                         {errors.email}
                                     </div>
                                 )}

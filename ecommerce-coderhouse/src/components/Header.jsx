@@ -3,7 +3,7 @@ import "../App.css";
 
 const Header = () => {
     return (
-        <header>
+        <header id="header">
             <div className="container-head">
                 <div className="logo">Aromas ricos</div>
             </div>
